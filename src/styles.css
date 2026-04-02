@@ -1,1 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
+
+body {
+    margin: 0;
+}
+
+
+
+/* #region konfiguracja wizualna */
+:root {
+    /*kolory*/
+    --color-bronze: #543221;
+    --color-light: #fde7c3;
+
+    /* typografia i odstepy */
+    --font-main: 'Helvetica', sans-serif;
+    --card-padding: 20px;
+
+    /*vizual*/
+    --border-radius: 8px;
+}
+/* #endregion */

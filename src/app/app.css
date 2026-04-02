@@ -1,0 +1,162 @@
+h1 {
+    color:var(--color-bronze);
+    font-family:var(--font-main);
+    font-weight: bold;
+    text-align: center;
+    font-size: 50px;
+    margin-bottom: 10px;
+}
+.main-container {
+    padding: 10px 40px;
+    background:linear-gradient(to bottom, white, var(--color-light));
+    min-height: 100vh; /*zapewnia ze tlo pokrywa cala wysokosc ekranu*/
+}
+.product-grid {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start; /*karty nie beda sie rozciagac w dol* */
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /*odstep pionowy miedzy kartami w kolumnie*/
+    flex: 1; /*kazda kolumna zajmuje tyle samo miejsca - 1/4 szerokosci*/
+}
+
+/* #region KARTA PRODUKTU */
+.product-card {
+    background: linear-gradient(to bottom, rgba(216, 181, 163, 0.168), white);
+    border-radius: 8px;
+    /*box-shadow: 0 4px 10px rgba(0,0,0,0.1);*/
+    display: flex;
+    justify-content: flex-end; /*staly dol karty*/
+    flex-direction: column; /*uklada elementy jeden pod drugim*/
+    align-items: center; /*srodkuje wszystkie dzieci w osi poziomej, w tym zwezajace sie zdjecie i tekst*/
+    overflow: hidden; /*nic nie wycieka z karty*/
+    padding: 0; /*domyslnie brak paddingu zeby zdjecie zajmowalo 100% szerokosci i bylo u gory*/
+    transition: padding 0.4s ease-in-out;
+    /* transition-delay: 0.3s; /*opoznienie animacji o 0.3s * */
+    isolation: isolate; /*mowimy przegladarce ze el wewnatrz kontenera nie moze wplywac na reszte strony*/
+}
+.product-card.is-open {
+    padding: 20px;
+}
+/* #endregion */
+
+/* #region FOTO KAWY */
+.image-wrapper {
+    position: relative; /*kotwica dla dziecka*/
+    width: 100%;
+    height: 200px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /*justify na osi pionowej pcha wszystko w dol*/
+    /* align-items: flex-end; */
+    overflow: hidden; /*wszystko co wystaje poza wrapper zostanie usuniete*/
+    transition: width 0.4s ease; /*plynna animacja zwezania*/
+    transition: height 0.4s ease-in-out;
+    /* isolation: isolate; */
+}
+.image-wrapper.narrowed { /*styl aktywowany przez angulara gdy kawa.expanded=true*/
+    border-radius: 8px; /*zaokraglenie rogow po zwezeniu*/
+    height: 180px;
+    margin-top: 0;
+}
+
+.image-title {
+    position: absolute; /*ignorowanie innych ustawien i podporzadkowanie rodzicu - tekst plywa nad zdjeciem*/
+    bottom: 0; /*przyklejamy tekst do dolu zdjecia*/
+    left: 0;
+    z-index: 2; /* >>tekst zajmuje warstwe nad zdjeciem*/
+    width: 100%; /*rozciagamy tlo na cala szerokosc*/
+    margin: 0;
+    padding: 15px 0; /*odstep gora, dol dla tekstu*/
+    color: white;
+    text-align: center;
+    font-family: var(--font-main);
+    font-weight: 300; /*100 thin, 300 light, 400 regular, 700 bold*/
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        #381300bc 80%,
+        rgba(0, 0, 0, 0.734) 100%
+    );
+    border-radius: 8px;
+}
+.product-img {
+    position: absolute;
+    bottom: 0;
+    z-index: 1; /* >>zdjecie jest na najzizszej warstwie*/
+    width: 100%;
+    height: 200px;
+    object-fit: cover; /*foto wypelnia obszar bez rozciagania*/
+    object-position: bottom;
+    display: block;
+    border-radius: 8px;
+    transition: height 0.4s ease-in-out;
+}
+/* #endregion */
+
+/* #region SZCZEGOLY - GRID */
+.details-container {  /*base state: kontener jest zamkniety*/
+    display: grid;
+    overflow: hidden; /*kontener ukrywa zawartosc gdy wysokosc za mala*/
+    opacity: 0; /*tekst przezroczysty*/
+    grid-template-rows: 0fr; /*startujemy od 0 czesci wiersza*/
+    transition: grid-template-rows 0.5s ease, opacity 0.3s ease;
+}
+.details-container.visible {
+    grid-template-rows: 1fr; /*rozwijamy do 1 pelnej czesci - cala zawartosc*/
+    opacity: 1;
+}
+.details-inner {
+    min-height: 0; /*to pozwala gridowi poprawnie obliczyc wysokosc do zera*/
+}
+/* #endregion */
+
+/* #region ZAWARTOSC KARTY PRODUKTU */
+.image-toggle-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    width: 100%; /*aby przycisk zajmowal cala szerokosc karty*/
+    display: block; /*usuwa zbedne przerwy pod obrazkiem*/
+}
+.short-description {
+    font-family: var(--font-main);
+    font-weight: 300; /*100 thin, 300 light, 400 regular, 700 bold*/
+    width: 100%;
+    text-align: left;
+    margin: 15px 0 0 0; /*gorny margines aby odsunac sie od zdjecia*/
+}
+.cart-btn {
+    background-color: var(--color-bronze);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 30px 0;
+    width: 100%;
+}
+iframe {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+.long-description {
+    /* border-radius: 5px; */
+    margin-top: 0;
+    font-family: var(--font-main);
+    font-weight: 100;
+    font-size: 14px;
+    line-height: 1.5; /*odstep miedzy liniami*/
+    text-align: justify; /*wyrownanie tekstu po obu stronach*/
+    hyphens: auto; /*dzielenie na sylaby. w index.html musi byc PL <html lang="pl">*/
+    /* letter-spacing: 0.01em; */
+}
+/* #endregion */
