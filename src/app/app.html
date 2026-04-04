@@ -13,25 +13,25 @@
           @if (i % 4 === colIndex) {
             <div class="product-card" [class.is-open]="kawa.czyOtwarte" (click)="toggleDetalis(kawa)">
 
-        <div class="image-wrapper" [class.narrowed]="kawa.czyOtwarte">
-          <div class="image-toggle-btn">
-            <img [src]="kawa.foto" class="product-img">
-            <h2 class="image-title">{{ kawa.nazwa }}</h2>
-          </div>
-        </div>
+              <div class="image-wrapper" [class.narrowed]="kawa.czyOtwarte">
+                <div class="image-toggle-btn">
+                  <img [src]="kawa.foto" class="product-img">
+                  <h2 class="image-title">{{ kawa.nazwa }}</h2>
+                </div>
+              </div>
 
-        <div class="details-container" [class.visible]="kawa.czyOtwarte">
-          <div class="details-inner">
-            <p class="short-description">{{ kawa.shortDesc }}</p>
-            <button class="cart-btn" (click)="$event.stopPropagation();
-            dodajDoKoszyka(kawa.nazwa)">Dodaj do koszyka
-            </button>
-            @if (kawa.videoId) {
-              <iframe [src]="kawa.safeUrl" frameBorder="0" allowfullscreen></iframe>
-            }
-             <p class="long-description">{{kawa.longDesc}}</p>
-          </div>
-        </div>
+              <div class="details-container" [class.visible]="kawa.czyOtwarte">
+                <div class="details-inner">
+                  <p class="short-description">{{ kawa.shortDesc }}</p>
+                  <button class="cart-btn" (click)="$event.stopPropagation();
+                  dodajDoKoszyka(kawa.nazwa)">Dodaj do koszyka
+                  </button>
+                  @if (kawa.videoId) {
+                    <iframe [src]="kawa.safeUrl" frameBorder="0" allowfullscreen></iframe>
+                  }
+                  <p class="long-description">{{kawa.longDesc}}</p>
+                </div>
+              </div>
 
             </div>
           }
