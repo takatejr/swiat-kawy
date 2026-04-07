@@ -7,10 +7,9 @@
 
 <div class="main-container">
   <div class="product-grid">
-    @for (colIndex of [0,1,2,3]; track colIndex) {
+    @for (kolumna of kolumny; track $index) {
       <div class="column">
-        @for (kawa of produkty; track kawa.nazwa; let i = $index) {
-          @if (i % 4 === colIndex) {
+        @for (kawa of kolumna; track kawa.nazwa) {
             <div class="product-card" [class.is-open]="kawa.czyOtwarte" (click)="toggleDetalis(kawa)">
 
               <div class="image-wrapper" [class.narrowed]="kawa.czyOtwarte">
@@ -26,7 +25,7 @@
                   <button class="cart-btn" (click)="$event.stopPropagation();
                   dodajDoKoszyka(kawa.nazwa)">Dodaj do koszyka
                   </button>
-                  @if (kawa.videoId) {
+                  @if (kawa.videoId && kawa.czyOtwarte) {
                     <iframe [src]="kawa.safeUrl" frameBorder="0" allowfullscreen></iframe>
                   }
                   <p class="long-description">{{kawa.longDesc}}</p>
@@ -34,7 +33,7 @@
               </div>
 
             </div>
-          }
+          
         }
       </div>
     }

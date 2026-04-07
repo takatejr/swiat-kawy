@@ -37,11 +37,11 @@ h1 {
     padding: 0; /*domyslnie brak paddingu zeby zdjecie zajmowalo 100% szerokosci i bylo u gory*/
     transition: padding 0.4s ease-in-out;
     /* transition-delay: 0.3s; /*opoznienie animacji o 0.3s * */
-    isolation: isolate; /*mowimy przegladarce ze el wewnatrz kontenera nie moze wplywac na reszte strony*/
+    /* isolation: isolate; mowimy przegladarce ze el wewnatrz kontenera nie moze wplywac na reszte strony */
 }
-.product-card.is-open {
+/* .product-card.is-open {
     padding: 20px;
-}
+} */
 /* #endregion */
 
 /* #region FOTO KAWY */
@@ -49,20 +49,21 @@ h1 {
     position: relative; /*kotwica dla dziecka*/
     width: 100%;
     height: 200px;
-    border-radius: 8px;
+    border-radius: var(--border-radius);
     display: flex;
     flex-direction: column;
     justify-content: flex-end; /*justify na osi pionowej pcha wszystko w dol*/
-    /* align-items: flex-end; */
+    margin: 0 auto; /*by przy zmniejszaniu zdjecie stalo w srodku*/
     overflow: hidden; /*wszystko co wystaje poza wrapper zostanie usuniete*/
-    transition: width 0.4s ease; /*plynna animacja zwezania*/
-    transition: height 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out, height 0.4s ease-in-out, margin 0.4s ease-in-out;
     /* isolation: isolate; */
 }
 .image-wrapper.narrowed { /*styl aktywowany przez angulara gdy kawa.expanded=true*/
-    border-radius: 8px; /*zaokraglenie rogow po zwezeniu*/
+    border-radius: var(--border-radius); /*zaokraglenie rogow po zwezeniu*/
     height: 180px;
-    margin-top: 0;
+    /* margin-top: 0; */
+    width: calc(100% - 40px);
+    margin:  20px auto 0 auto;
 }
 
 .image-title {
@@ -105,7 +106,11 @@ h1 {
     overflow: hidden; /*kontener ukrywa zawartosc gdy wysokosc za mala*/
     opacity: 0; /*tekst przezroczysty*/
     grid-template-rows: 0fr; /*startujemy od 0 czesci wiersza*/
-    transition: grid-template-rows 0.5s ease, opacity 0.3s ease;
+    transition: grid-template-rows 0.5s ease, opacity 0.5s ease-in-out;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 .details-container.visible {
     grid-template-rows: 1fr; /*rozwijamy do 1 pelnej czesci - cala zawartosc*/
@@ -113,6 +118,9 @@ h1 {
 }
 .details-inner {
     min-height: 0; /*to pozwala gridowi poprawnie obliczyc wysokosc do zera*/
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
 }
 /* #endregion */
 
@@ -130,7 +138,7 @@ h1 {
     font-weight: 300; /*100 thin, 300 light, 400 regular, 700 bold*/
     width: 100%;
     text-align: left;
-    margin: 15px 0 0 0; /*gorny margines aby odsunac sie od zdjecia*/
+    margin-top: 20px;
 }
 .cart-btn {
     background-color: var(--color-bronze);
@@ -139,7 +147,7 @@ h1 {
     padding: 10px;
     border-radius: 5px;
     cursor: pointer;
-    margin: 30px 0;
+    margin-bottom: 20px;
     width: 100%;
 }
 iframe {

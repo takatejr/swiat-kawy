@@ -106,6 +106,8 @@ export class App {
 
   ];
 
+kolumny: produkt [][]=[[],[],[],[]];
+
   dodajDoKoszyka (kawa:string): void {
     alert('Dodano do koszyka:'+kawa);
   }
@@ -116,10 +118,11 @@ export class App {
   }
 
   constructor (){
-    this.produkty.forEach(kawa => {
+    this.produkty.forEach((kawa, index) => {
       if (kawa.videoId) { //obliczamy bezpieczny link jeden raz przy starcie aplikacji i przypisujemy go do obiektu
-        (kawa as any).safeUrl=this.sanitizer.bypassSecurityTrustResourceUrl('https:www.youtube.com/embed/'+kawa.videoId);
+        kawa.safeUrl=this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/'+kawa.videoId);
       }
+      this.kolumny[index % 4].push(kawa);
     });
   }
 }
