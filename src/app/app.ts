@@ -2,25 +2,17 @@ import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { produkt } from './product-grid/models';
+import { ProductGridComponent } from "./product-grid/product-grid.component";
 
-interface produkt {
-  nazwa: string;
-  foto: string;
-  shortDesc: string;
-  longDesc: string;
-  videoId: string | null;
-  czyOtwarte: boolean;
-  // expanded: boolean; //decyduje o szerokosci zdjecia i bialej ramce
-  // visible: boolean; //decyduje o wysokosci rolety grid (0fr/1fr)
-  safeUrl?: any; //dodajemy ? zeby safeUrl bylo opcjonalne
-}
 
 @Component({ //dekorator @component musi byc bezposrednio nad klasa
   selector: 'app-root',
   // imports: [RouterOutlet],
   standalone: true,
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
+  imports: [CommonModule, ProductGridComponent]
 })
 
 export class App {
@@ -106,16 +98,7 @@ export class App {
 
   ];
 
-kolumny: produkt [][]=[[],[],[],[]];
-
-  dodajDoKoszyka (kawa:string): void {
-    alert('Dodano do koszyka:'+kawa);
-  }
-
-  toggleDetalis(kawa:any) {
-    // kawa.expanded=!kawa.expanded; //to odwraca wartosc. (false->true, true->false)
-    kawa.czyOtwarte=!kawa.czyOtwarte;
-  }
+  kolumny: produkt [][]=[[],[],[],[]];
 
   constructor (){
     this.produkty.forEach((kawa, index) => {
