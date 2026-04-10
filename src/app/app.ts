@@ -98,14 +98,14 @@ export class App {
 
   ];
 
-  kolumny: produkt [][]=[[],[],[],[]];
+  // kolumny: produkt [][]=[[],[],[],[]];
 
   constructor (){
     this.produkty.forEach((kawa, index) => {
       if (kawa.videoId) { //obliczamy bezpieczny link jeden raz przy starcie aplikacji i przypisujemy go do obiektu
         kawa.safeUrl=this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/'+kawa.videoId);
       }
-      this.kolumny[index % 4].push(kawa);
+      // this.kolumny[index % 4].push(kawa);
     });
   }
 }
