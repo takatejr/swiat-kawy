@@ -1,3 +1,45 @@
+.selection-divider {
+    display: flex;
+    align-items: center; /*wyrownanie w pionie*/
+    justify-content: center;
+    width: 100%; /*cala szerokosc gridu*/
+    /* margin: 20px 0; odstep od gory i dolu */
+}
+.selection-divider h3 {
+    display: flex;
+    align-items: center; /*wyrownanie w pionie*/
+    width: 100%;
+    font-family: var(--font-main);
+    font-weight: 300;
+    font-size: 24px;
+    color: var(--color-bronze);
+}
+.selection-divider h3 span {
+    padding: 0 20px; /*odstep tekstu od kresek*/
+    white-space: nowrap; /*zapobiega lamaniu tekstu na malych ekranach*/
+}
+.selection-divider h3::before,
+.selection-divider h3::after {
+    content: '';
+    flex-grow: 1; /*rozciagniecie na boki*/
+    height: 4px; /*jak gleboko w dol idzie zagiecie*/
+    margin-top: 10px; /*obniza krawedz by zrownala sie ze srodkiem tekstu*/
+}
+
+.selection-divider h3::before {
+    border-top: 1.5px solid var(--color-bronze);
+    border-left: 1px solid var(--color-bronze);
+    border-top-left-radius: 8px;
+}
+
+.selection-divider h3::after {
+    border-top: 1.5px solid var(--color-bronze);
+    border-right: 1px solid var(--color-bronze);
+    border-top-right-radius: 8px;
+}
+
+
+
 .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));

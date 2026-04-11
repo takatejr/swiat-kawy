@@ -1,26 +1,63 @@
-  <div class="product-grid">
+    <div class="selection-divider">
+        <h3><span>{{ tytul }}</span></h3>
+    </div>
+
+
+<div class="product-grid">
+    @for (kolumna of kolumny; track $index){
+    <div class="column">
+        @for (przedmiot of kolumna; track przedmiot.nazwa) {
+        <div class="product-card" [class.is-open]="przedmiot.czyOtwarte" (click)="toggleDetails(przedmiot)">
+
+            <div class="image-wrapper" [class.narrowed]="przedmiot.czyOtwarte">
+                <div class="image-toggle-btn">
+                    <img [src]="przedmiot.foto" class="product-img">
+                    <h2 class="image-title">{{ przedmiot.nazwa }}</h2>
+                </div>
+            </div>
+
+            <div class="details-container" [class.visible]="przedmiot.czyOtwarte">
+                <div class="details-inner">
+                    <p class="short-description">{{ przedmiot.shortDesc }}</p>
+                    <button class="cart-btn" (click)="$event.stopPropagation();
+                            dodajDoKoszyka(przedmiot.nazwa)">Dodaj do koszyka
+                    </button>
+                    @if (przedmiot.videoId && przedmiot.czyOtwarte) {
+                    <iframe [src]="przedmiot.safeUrl" frameBorder="0" allowfullscreen></iframe>
+                    }
+                    <p class="long-description">{{przedmiot.longDesc}}</p>
+                </div>
+            </div>
+
+        </div>
+        }
+    </div>
+    }
+</div>
+
+<!-- <div class="product-grid">
     @for (kolumna of kolumny; track $index){ 
         <div class = "column"> 
-            @for (kawa of kolumna; track kawa.nazwa) {
-                <div class="product-card" [class.is-open]="kawa.czyOtwarte" (click)="toggleDetails(kawa)">
+            @for (przedmiot of kolumna; track przedmiot.nazwa) {
+                <div class="product-card" [class.is-open]="przedmiot.czyOtwarte" (click)="toggleDetails(przedmiot)">
 
-                    <div class="image-wrapper" [class.narrowed]="kawa.czyOtwarte">
+                    <div class="image-wrapper" [class.narrowed]="przedmiot.czyOtwarte">
                         <div class="image-toggle-btn">
-                            <img [src]="kawa.foto" class="product-img">
-                            <h2 class="image-title">{{ kawa.nazwa }}</h2>
+                            <img [src]="przedmiot.foto" class="product-img">
+                            <h2 class="image-title">{{ przedmiot.nazwa }}</h2>
                          </div>
                      </div>
 
-                     <div class="details-container" [class.visible]="kawa.czyOtwarte">
+                     <div class="details-container" [class.visible]="przedmiot.czyOtwarte">
                         <div class="details-inner">
-                            <p class="short-description">{{ kawa.shortDesc }}</p>
+                            <p class="short-description">{{ przedmiot.shortDesc }}</p>
                             <button class="cart-btn" (click)="$event.stopPropagation();
-                            dodajDoKoszyka(kawa.nazwa)">Dodaj do koszyka
+                            dodajDoKoszyka(przedmiot.nazwa)">Dodaj do koszyka
                             </button>
-                            @if (kawa.videoId && kawa.czyOtwarte) {
-                            <iframe [src]="kawa.safeUrl" frameBorder="0" allowfullscreen></iframe>
+                            @if (przedmiot.videoId && przedmiot.czyOtwarte) {
+                            <iframe [src]="przedmiot.safeUrl" frameBorder="0" allowfullscreen></iframe>
                             }
-                            <p class="long-description">{{kawa.longDesc}}</p>
+                            <p class="long-description">{{przedmiot.longDesc}}</p>
                         </div>
                     </div>
             
@@ -28,4 +65,4 @@
              }
         </div> 
     }
-  </div>
+  </div> -->

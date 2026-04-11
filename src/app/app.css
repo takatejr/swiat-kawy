@@ -6,8 +6,8 @@ h1 {
     font-size: 50px;
     margin-bottom: 10px;
 }
+
+
 .main-container {
     padding: 10px 40px;
-    background:linear-gradient(to bottom, white, var(--color-light));
-    min-height: 100vh; /*zapewnia ze tlo pokrywa cala wysokosc ekranu*/
 }

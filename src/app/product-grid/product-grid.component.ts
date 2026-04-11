@@ -13,7 +13,7 @@ import { DomSanitizer } from "@angular/platform-browser";
 
 export class ProductGridComponent implements OnInit{
     @Input ({ required: true }) tytul!: string;
-    @Input ({ required: true }) produkty: produkt [] = [];
+    @Input ({ required: true }) elementy: produkt [] = []; /* produkty; to nazwa pudelka, produkt to kazdy el opisany w modelu produkt - nazwa,foto.. */
     kolumny: produkt [][] = [];
 
     ngOnInit() { /*uruchamia sie przy starcie by strona nie byla pusta */
@@ -42,15 +42,15 @@ export class ProductGridComponent implements OnInit{
         this.kolumny = []; /*tworzymy puste kolumny w tablicy */
         for (let i = 0; i < iloscKolumn; i++) {this.kolumny.push ([]);}
 
-        this.produkty.forEach ((kawa, index) => { /* rozrzucenie kaw po kolumnach jedna po drugiej */
-            this.kolumny [index % iloscKolumn].push(kawa);
+        this.elementy.forEach ((przedmiot, index) => { /* rozrzucenie kaw po kolumnach jedna po drugiej */
+            this.kolumny [index % iloscKolumn].push(przedmiot);
         });
     }
 
     constructor (private sanitizer: DomSanitizer) {};
 
-    dodajDoKoszyka (kawa:string): void { alert('Dodano do koszyka:'+kawa) };
-    toggleDetails(kawa:produkt) { kawa.czyOtwarte=!kawa.czyOtwarte };
+    dodajDoKoszyka (przedmiot:string): void { alert('Dodano do koszyka:'+przedmiot) };
+    toggleDetails(przedmiot:produkt) { przedmiot.czyOtwarte=!przedmiot.czyOtwarte };
 }
 
 
