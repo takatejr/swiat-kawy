@@ -1,3 +1,10 @@
+.wrapper {
+    padding: 10px var(--padding-side);
+    max-width: 1600px;
+    margin: 0 auto;
+    gap: 20px;
+}
+
 .selection-divider {
     display: flex;
     align-items: center; /*wyrownanie w pionie*/
@@ -57,7 +64,7 @@
 /* #region KARTA PRODUKTU */
 .product-card {
     background: linear-gradient(to bottom, rgba(216, 181, 163, 0.168), white);
-    border-radius: 8px;
+    border-radius: var(--border-radius);
     /*box-shadow: 0 4px 10px rgba(0,0,0,0.1);*/
     display: flex;
     justify-content: flex-end; /*staly dol karty*/
@@ -114,7 +121,7 @@
         #381300bc 80%,
         rgba(0, 0, 0, 0.734) 100%
     );
-    border-radius: 8px;
+    border-radius: var(--border-radius);
 }
 .product-img {
     position: absolute;
@@ -125,7 +132,7 @@
     object-fit: cover; /*foto wypelnia obszar bez rozciagania*/
     object-position: bottom;
     display: block;
-    border-radius: 8px;
+    border-radius: var(--border-radius);
     transition: height 0.4s ease-in-out;
 }
 /* #endregion */
@@ -183,7 +190,7 @@
 iframe {
     width: 100%;
     aspect-ratio: 16/9;
-    border-radius: 8px;
+    border-radius: var(--border-radius);
     margin-bottom: 15px;
 }
 .long-description {

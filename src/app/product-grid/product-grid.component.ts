@@ -28,7 +28,8 @@ export class ProductGridComponent implements OnInit{
     przeliczKolumny() { /* glowna funkcja dzielaca kawy */
         const szerokoscOkna = window.innerWidth;
         const konfiguracjaProgowa = [
-            { prog: 1400, kolumny: 5 },
+            // { prog: 1800, kolumny: 6 },
+            { prog: 1500, kolumny: 5 },
             { prog: 1200, kolumny: 4 },
             { prog: 900, kolumny: 3 },
             { prog: 600, kolumny: 2 },]

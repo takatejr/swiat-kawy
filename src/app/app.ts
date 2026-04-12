@@ -4,6 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { produkt } from './product-grid/models';
 import { ProductGridComponent } from "./product-grid/product-grid.component";
+import { Header } from "./header/header";
 
 
 @Component({ //dekorator @component musi byc bezposrednio nad klasa
@@ -12,7 +13,7 @@ import { ProductGridComponent } from "./product-grid/product-grid.component";
   standalone: true,
   templateUrl: './app.html',
   styleUrl: './app.css',
-  imports: [CommonModule, ProductGridComponent]
+  imports: [CommonModule, ProductGridComponent, Header]
 })
 
 export class App {
