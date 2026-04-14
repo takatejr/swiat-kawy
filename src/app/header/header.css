@@ -12,18 +12,6 @@
     border-bottom: 1.5px solid var(--color-bronze);
 }
 
-.wrapper {
-    padding: 15px var(--padding-side);
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1600px;
-    margin: 0 auto;
-        gap: 20px;
-
-}
-
 .logo {
     display: flex;
     white-space: nowrap;
@@ -31,13 +19,15 @@
     gap: 10px;
     margin: 0;
 }
+
 img {
     height: 40px;
 
 }
+
 h1 {
-    color:var(--color-bronze);
-    font-family:var(--font-main);
+    color: var(--color-bronze);
+    font-family: var(--font-main);
     font-weight: bold;
     text-align: center;
     font-size: 40px;
@@ -45,31 +35,61 @@ h1 {
     margin: 0;
     padding: 0;
 }
-
-.navigacja {
+.nawigacja {
     display: flex;
     align-items: center;
     list-style: none;
     margin: 0;
     padding: 0;
-    color:var(--color-bronze);
-    font-family:var(--font-main);
+    color: var(--color-bronze);
+    font-family: var(--font-main);
     font-weight: 400;
     text-align: center;
     font-size: 18px;
-    gap: 20px; 
+    gap: 20px;
     /* padding: 0; */
     /* padding-bottom: 20px; */
 }
-/* .navigacja-dostawa {
 
-}
-.navigacja-kontakt {
+@media (max-width: 600px) {
+    .logo {
+        justify-content: center;
+    }
 
-}
-.navigacja-zaloguj{
+    .wrapper {
+        justify-content: center;
+        margin: 5px 0;
+    }
 
-}
-.navigacja-koszyk {
+    .nawigacja {
+        position: fixed;
+        bottom: 0;
+        left: var(--padding-side);
+        right: var(--padding-side);
+        padding: 10px 0;
+        display: flex;
+        justify-content: space-around;
+        z-index: 998;
+        /*na saaaaaaaamej gorze*/
+        background-color: var(--color-light);
+        border: 1.5px solid var(--color-bronze);
+        border-bottom: 0;
+        border-radius: var(--border-radius);
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .nawigacja i {
+        font-size: 30px;
     
-} */
+    }
+
+
+    .naw-tekst {
+        display: none;
+        /*nie wyswietlac*/
+    }
+}
+
+
+
