@@ -3,7 +3,7 @@ import { CommonModule } from "@angular/common";
 import { produkt } from "./models";
 import { DomSanitizer } from "@angular/platform-browser";
 
-@Component ({
+@Component({
     selector: 'app-product-grid',
     standalone: true,
     imports: [CommonModule],
@@ -11,19 +11,32 @@ import { DomSanitizer } from "@angular/platform-browser";
     styleUrl: './product-grid.component.css'
 })
 
-export class ProductGridComponent implements OnInit{
-    @Input ({ required: true }) tytul!: string;
-    @Input ({ required: true }) elementy: produkt [] = []; /* produkty; to nazwa pudelka, produkt to kazdy el opisany w modelu produkt - nazwa,foto.. */
-    kolumny: produkt [][] = [];
+export class ProductGridComponent implements OnInit {
+    @Input({ required: true }) tytul!: string;
+    @Input({ required: true }) elementy: produkt[] = []; /* elementy to nazwa pudelka, produkt to kazdy el opisany w modelu produkt - nazwa,foto.. */
+
+
+    kolumny: produkt[][] = [];
 
     ngOnInit() { /*uruchamia sie przy starcie by strona nie byla pusta */
-        this.przeliczKolumny ();
+        this.przeliczKolumny();
     }
+
 
     @HostListener ('window:resize')
     onResize() {
         this.przeliczKolumny ();
     }
+    // @HostListener('window:resize')
+    // onResize() {
+    //     if ((document as any).startViewTransition) { /*sprawdzenie czy przegladarka wspiera te nowa funkcje */
+    //         (document as any).startViewTransition(() => {
+    //             this.przeliczKolumny();
+    //         });
+    //     } else {
+    //         this.przeliczKolumny();
+    //     }
+    // }
 
     przeliczKolumny() { /* glowna funkcja dzielaca kawy */
         const szerokoscOkna = window.innerWidth;
@@ -40,17 +53,17 @@ export class ProductGridComponent implements OnInit{
             }
         }
         this.kolumny = []; /*tworzymy puste kolumny w tablicy */
-        for (let i = 0; i < iloscKolumn; i++) {this.kolumny.push ([]);}
+        for (let i = 0; i < iloscKolumn; i++) { this.kolumny.push([]); }
 
-        this.elementy.forEach ((przedmiot, index) => { /* rozrzucenie kaw po kolumnach jedna po drugiej */
-            this.kolumny [index % iloscKolumn].push(przedmiot);
+        this.elementy.forEach((przedmiot, index) => { /* rozrzucenie kaw po kolumnach jedna po drugiej */
+            this.kolumny[index % iloscKolumn].push(przedmiot);
         });
     }
 
-    constructor (private sanitizer: DomSanitizer) {};
+    constructor(private sanitizer: DomSanitizer) { };
 
-    dodajDoKoszyka (przedmiot:string): void { alert('Dodano do koszyka:'+przedmiot) };
-    toggleDetails(przedmiot:produkt) { przedmiot.czyOtwarte=!przedmiot.czyOtwarte };
+    dodajDoKoszyka(przedmiot: string): void { alert('Dodano do koszyka:' + przedmiot) };
+    toggleDetails(przedmiot: produkt) { przedmiot.czyOtwarte = !przedmiot.czyOtwarte };
 }
 
 

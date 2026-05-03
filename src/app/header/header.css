@@ -1,28 +1,32 @@
-/* header {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-
-} */
-
 .header-tlo {
     background-color: var(--color-light);
     border-top: 1.5px solid var(--color-bronze);
     border-bottom: 1.5px solid var(--color-bronze);
 }
 
+.wrapper {
+    display: flex;
+    /* justify-content: space-between; */
+    /*rozsuwa na boki*/
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 20px var(--padding-side);
+    max-width: 1600px;
+    margin: 0 auto;
+    column-gap: 40px;
+    /*odstep w poziomie miedzy logo a nawigacja*/
+    row-gap: 15px;
+    /*odstep w pionie po przelamaniu linii*/
+}
+
+/* #region LOGO */
 .logo {
     display: flex;
+    /* wypycha reszte w prawo */
+    margin-right: auto;
     white-space: nowrap;
     align-items: last baseline;
     gap: 10px;
-    margin: 0;
-}
-
-img {
-    height: 40px;
-
 }
 
 h1 {
@@ -31,65 +35,225 @@ h1 {
     font-weight: bold;
     text-align: center;
     font-size: 40px;
-    margin-right: 20px;
     margin: 0;
     padding: 0;
 }
+
+img {
+    height: 40px;
+}
+
+/* #endregion */
+
+/* #region WYSZUKIWARKA */
+/* POLE TEKSTOWE */
+.wyszukiwarka-pole {
+    position: static;
+    background-color: var(--color-light);
+    border: 1.5px solid var(--color-bronze);
+    border-radius: var(--border-radius);
+    color: var(--color-bronze);
+    font-family: var(--font-main);
+    font-size: 18px;
+    width: 90px;
+    right: 40px;
+    margin: 0;
+    padding: 5px 35px 5px 10px;
+    outline: none;
+    transition: width 0.7s ease-in-out, border-color 0.7s ease;
+
+}
+
+.wyszukiwarka-pole::placeholder {
+    color: var(--color-bronze);
+    font-family: var(--font-main);
+    font-weight: 300;
+    opacity: 0.5;
+}
+
+/* PRZYCISK LUPY */
+.przycisk-szukaj {
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    /* Ustawia górną krawędź lupy idealnie na środku wysokości paska */
+    /* top: 50%; */
+    /* Przesuwa lupę w górę o połowę jej własnej wysokości */
+    /* transform: translateY(-50%); */
+    left: -35px;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 5;
+    transition: color 0.2s ease;
+}
+
+.przycisk-szukaj:focus {
+    /* usuwa standardowa obwodke przycisku */
+    outline: none;
+}
+
+/* AKCJE - NAJECHANIE I KLIKNIECIE */
+@media (hover: hover) and (pointer: fine) {
+    /*.przycisk-szukaj */i:hover {
+        /*co sie dzieje po najechaniu */
+        transform: scale(0.8);
+        color: var(--color-blue);
+    }
+
+    /* .wyszukiwarka-pole:focus {
+        width: 250px;
+        border-color: var(--color-blue);
+    } */
+
+    .wrapper:focus-within .przycisk-szukaj i {
+        /* pod czas pisania tekstu by lupa nadal miala inny kolor */
+        color: var(--color-blue);
+    }
+}
+
+
+/* #endregion */
+li {
+    position: relative;
+}
+
 .nawigacja {
     display: flex;
     align-items: center;
     list-style: none;
-    margin: 0;
+    white-space: nowrap;
+    margin-left: -40px;
     padding: 0;
     color: var(--color-bronze);
     font-family: var(--font-main);
     font-weight: 400;
-    text-align: center;
     font-size: 18px;
+    text-align: center;
     gap: 20px;
-    /* padding: 0; */
-    /* padding-bottom: 20px; */
 }
 
-@media (max-width: 600px) {
-    .logo {
-        justify-content: center;
+i {
+    font-size: 28px;
+    color: var(--color-bronze);
+}
+
+.nawigacja a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.naw-tekst {
+    vertical-align: middle;
+    white-space: nowrap;
+    overflow: hidden;
+    /* Width działa tylko na block/inline-block */
+    display: inline-block;
+    max-width: 150px;
+    opacity: 1;
+    transition: all 0.4s ease-in-out;
+}
+
+@media (max-width: 1350px) {
+    .wrapper {
+        flex-wrap: nowrap;
+        justify-content: flex-end;
     }
 
-    .wrapper {
-        justify-content: center;
-        margin: 5px 0;
+    .logo {
+        width: auto;
+        /* logo nie moze sie scisnac */
+        flex-shrink: 0;
+        /* Logo na lewo, reszta na prawo */
+        margin-right: auto;
     }
 
     .nawigacja {
-        position: fixed;
-        bottom: 0;
-        left: var(--padding-side);
-        right: var(--padding-side);
-        padding: 10px 0;
-        display: flex;
-        justify-content: space-around;
-        z-index: 998;
-        /*na saaaaaaaamej gorze*/
-        background-color: var(--color-light);
-        border: 1.5px solid var(--color-bronze);
-        border-bottom: 0;
-        border-radius: var(--border-radius);
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
+        width: auto;
+        gap: 15px;
     }
 
-    .nawigacja i {
-        font-size: 30px;
-    
-    }
-
-
-    .naw-tekst {
-        display: none;
-        /*nie wyswietlac*/
+    .wrapper:focus-within .naw-tekst {
+        max-width: 0;
+        opacity: 0;
+        transition: all 0.4s ease-out;
     }
 }
 
+@media (max-width: 1150px) {
+    .wrapper {
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 0;
+        padding: 20px 20px 10px 20px;
+        row-gap: 0;
+    }
 
+    .logo {
+        /* logo zajmuje cala szerokosc rzedu */
+        flex-basis: 100%;
+        justify-content: center;
+    }
+
+    .wrapper:focus-within .naw-tekst {
+        max-width: 0;
+        opacity: 0;
+        transition: all 0.4s ease-out;
+    }
+
+    .wyszukiwarka-pole::placeholder {
+        color: transparent;
+    }
+
+    .wyszukiwarka-pole:focus-within::placeholder {
+        color: var(--color-bronze);
+        transition: color 0.4s ease-in;
+    }
+
+    .wyszukiwarka-pole {
+        width: 20px;
+    }
+}
+
+@media (max-width: 800px) {
+    .wrapper {
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 0;
+        padding: 20px 20px 10px 20px;
+        row-gap: 0;
+    }
+
+    .wrapper .naw-tekst {
+        max-width: 0;
+        opacity: 0;
+    }
+}
+
+@media (min-width: 601px) {
+    .wyszukiwarka-pole {
+        transform: none;
+        position: static;
+        bottom: auto;
+        left: auto;
+    }
+
+    .wyszukiwarka-pole:focus {
+        width: 250px;
+        border-color: var(--color-blue);
+        transition: width 0.7s, border-color 0.7s ease;
+    }
+
+    /* .wyszukiwarka-pole,
+    .wyszukiwarka-pole.szukamy {
+        transition-property: width, border-color;
+    } */
+}
 

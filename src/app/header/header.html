@@ -4,52 +4,49 @@
             <img class="logo-img" src="swiat-kawy.png">
             <h1>ŚWIAT KAWY</h1>
         </a>
-        
+        <input #szukajka type="text" placeholder="Szukaj" class="wyszukiwarka-pole" [class.szukamy]="szukajAktywne">
         <ul class="nawigacja">
-
-            <li class="nawigacja-wyszukiwarka">
-                <a>
-                    <i class="ph ph-magnifying-glass"></i>
-                    <span class="naw-tekst">Szukaj</span>
-                </a>
+            <li>
+                <button class="przycisk-szukaj" (click)="toggleWyszukiwarka(szukajka)"><i class="ph ph-magnifying-glass"></i></button>
             </li>
 
-            <li class="nawigacja-dostawa">
-                <a>
+            <li>
+                <a class="dostawa">
                     <i class="ph ph-truck"></i>
                     <span class="naw-tekst">Dostawa</span>
                 </a>
             </li>
 
-            <li class="nawigacja-koszyk">
-                <a>
+            <li>
+                <a class="koszyk">
                     <i class="ph ph-basket"></i>
                     <span class="naw-tekst">Koszyk</span>
                 </a>
             </li>
 
-            <li class="nawigacja-kontakt">
-                <a>
+            <li>
+                <a class="kontakt">
                     <i class="ph ph-coffee"></i>
                     <span class="naw-tekst">O nas / Kontakt</span>
                 </a>
             </li>
 
-            <li class="nawigacja-zaloguj">
-                <a>
+            <li>
+                <a class="zaloguj">
                     <i class="ph ph-user-circle"></i>
                     <span class="naw-tekst">Zaloguj się</span>
                 </a>
             </li>
 
-            <!-- <li class="nawigacja-konto">
-                <a>
+            <!-- !-- <li>
+                <a class="nawigacja-konto">
                     <i class="ph ph-smiley"></i>
                     Konto
                 </a>
-            </li> -->
-
+            </li> -- -->
 
         </ul>
+
+
     </div>
 </header>

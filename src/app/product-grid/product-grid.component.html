@@ -5,7 +5,7 @@
     </div>
     
     
-    <div class="product-grid">
+    <div class="product-grid" #grid>
         @for (kolumna of kolumny; track $index){
         <div class="column">
             @for (przedmiot of kolumna; track przedmiot.nazwa) {

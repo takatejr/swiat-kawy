@@ -3,16 +3,22 @@
 body {
     margin: 0;
     background: linear-gradient(to bottom, white, var(--color-light));
-    min-height: 100vh; /*zapewnia ze tlo pokrywa cala wysokosc ekranu*/
+    min-height: 100dvh;
+    /*zapewnia ze tlo pokrywa cala wysokosc ekranu*/
 }
 
-
+html {
+    background-color: var(--color-light);
+    scroll-behavior: smooth;
+    /*klikniecie w link do innej sekcji na tej samej stronie nie przeskakuje lecz plynnie zjezdza*/
+}
 
 /* #region konfiguracja wizualna */
 :root {
     /*kolory*/
     --color-bronze: #543221;
     --color-light: #fde7c3;
+    --color-blue: rgb(0, 221, 255);
 
     /* typografia i odstepy */
     --font-main: 'Helvetica', sans-serif;
@@ -21,6 +27,23 @@ body {
     /*vizual*/
     --padding-side: 40px;
     --border-radius: 8px;
+
 }
+
+@media (max-width: 600px) {
+    :root {
+        /* position:fixed; left:var(--padding-side); width: var(--odstepy-mobilne); */
+        --odstepy-mobilne: calc(100% - (2 * var(--padding-side)));
+    }
+}
+@media (max-width: 400px) {
+    :root {
+        /* position:fixed; left:var(--padding-side); width: var(--odstepy-mobilne); */
+        --padding-side: 15px;
+        --odstepy-mobilne: calc(100% - (2 * var(--padding-side)));
+    }
+}
+
+
 
 /* #endregion */

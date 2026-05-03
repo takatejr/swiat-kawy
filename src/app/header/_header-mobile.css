@@ -1,0 +1,84 @@
+@media (max-width: 600px) {
+    .logo {
+        justify-content: center;
+    }
+
+    .nawigacja {
+        position: fixed;
+        left: var(--padding-side);
+        width: var(--odstepy-mobilne);
+        bottom: 0;
+        margin: 0;
+        /* wliczenie obwodki w rozmiar tla */
+        box-sizing: border-box;
+        padding-top: 10px;
+        padding-bottom: calc(10px + env(safe-area-inset-bottom));
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        z-index: 999;
+        background-color: var(--color-light);
+        border: 1.5px solid var(--color-bronze);
+        border-radius: var(--border-radius);
+    }
+
+    .przycisk-szukaj {
+        /* reset pozycjonowania absolute z głównego widoku */
+        position: relative;
+        top: auto;
+        left: auto;
+        transform: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .nawigacja i {
+        font-size: 35px;
+    }
+
+    .wyszukiwarka-pole {
+        display: block;
+        position: fixed;
+        /* left: var(--padding-side); */
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        bottom: 0;
+        /* bottom: 70px; */
+        right: auto;
+        padding: 10px;
+        box-sizing: border-box;
+        transform: translateY(0);
+        z-index: 998;
+        opacity: 0;
+        visibility: hidden;
+        /* zapobiega klikaniu w niewidoczny el */
+        transition: all 0.3s ease-in-out;
+        background-color: var(--color-light);
+        pointer-events: none;
+        /* zapobiega klikaniu w tlo ktore wystaje poza dol */
+    }
+
+    .wyszukiwarka-pole.szukamy {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        width: var(--odstepy-mobilne);
+        /* translateY(0) = brak odchylenia od normy czyli bottom 70 */
+        transform: translateY(-70px);
+        /*transition: width 0.2s ease-in, transform 0.3s ease-in-out*/
+        ;
+    }
+
+    /* .wyszukiwarka-pole, .wyszukiwarka-pole.szukamy {
+        transition-property: opacity, visibility, transform, width;
+    } */
+
+    .naw-tekst {
+        display: none;
+        /*nie wyswietlac*/
+    }
+
+
+
+}

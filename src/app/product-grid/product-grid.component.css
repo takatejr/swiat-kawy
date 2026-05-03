@@ -2,6 +2,7 @@
     padding: 10px var(--padding-side);
     max-width: 1600px;
     margin: 0 auto;
+ 
 }
 /* #region NAGLOWEK I KRESKI */
 .selection-divider {
@@ -90,8 +91,13 @@
     justify-content: flex-end; /*justify na osi pionowej pcha wszystko w dol*/
     margin: 0 auto; /*by przy zmniejszaniu zdjecie stalo w srodku*/
     overflow: hidden; /*wszystko co wystaje poza wrapper zostanie usuniete*/
-    transition: width 0.4s ease-in-out, height 0.4s ease-in-out, margin 0.4s ease-in-out;
+    scale: 1;
+    transition: all 0.4s ease-in-out;
     /* isolation: isolate; */
+}
+.image-wrapper:not(.narrowed):hover {
+    /* not czyli nie spelnia warunku narrowed - rozwiniety */
+    transform: scale(0.95);
 }
 .image-wrapper.narrowed { /*styl aktywowany przez angulara gdy kawa.expanded=true*/
     border-radius: var(--border-radius); /*zaokraglenie rogow po zwezeniu*/
@@ -99,6 +105,7 @@
     /* margin-top: 0; */
     width: calc(100% - 40px);
     margin:  20px auto 0 auto;
+    scale: 1;
 }
 
 .image-title {
