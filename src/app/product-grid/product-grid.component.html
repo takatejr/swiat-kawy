@@ -1,23 +1,23 @@
 <div class="wrapper">
-    
+
     <div class="selection-divider">
         <h3><span>{{ tytul }}</span></h3>
     </div>
-    
-    
+
+
     <div class="product-grid" #grid>
         @for (kolumna of kolumny; track $index){
         <div class="column">
             @for (przedmiot of kolumna; track przedmiot.nazwa) {
             <div class="product-card" [class.is-open]="przedmiot.czyOtwarte" (click)="toggleDetails(przedmiot)">
-    
+
                 <div class="image-wrapper" [class.narrowed]="przedmiot.czyOtwarte">
                     <div class="image-toggle-btn">
                         <img [src]="przedmiot.foto" class="product-img">
                         <h2 class="image-title">{{ przedmiot.nazwa }}</h2>
                     </div>
                 </div>
-    
+
                 <div class="details-container" [class.visible]="przedmiot.czyOtwarte">
                     <div class="details-inner">
                         <p class="short-description">{{ przedmiot.shortDesc }}</p>
@@ -30,7 +30,7 @@
                         <p class="long-description">{{przedmiot.longDesc}}</p>
                     </div>
                 </div>
-    
+
             </div>
             }
         </div>

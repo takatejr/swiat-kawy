@@ -17,7 +17,8 @@ html {
 :root {
     /*kolory*/
     --color-bronze: #543221;
-    --color-light: #fde7c3;
+    --color-light: rgb(253, 231, 195);
+    --color-light-trans: rgba(253, 231, 195, 0.6);
     --color-blue: rgb(0, 221, 255);
 
     /* typografia i odstepy */
@@ -36,6 +37,7 @@ html {
         --odstepy-mobilne: calc(100% - (2 * var(--padding-side)));
     }
 }
+
 @media (max-width: 400px) {
     :root {
         /* position:fixed; left:var(--padding-side); width: var(--odstepy-mobilne); */

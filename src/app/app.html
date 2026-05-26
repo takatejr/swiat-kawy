@@ -2,14 +2,14 @@
 <!-- cmd+shift+P do owijania kodu w kontainer - wrap with abbrewiation -->
 <!-- cmd+F wyszukiwarka -->
 
-<app-header></app-header>
+<app-header (szukajkaAkcja)="filtruj($event)"></app-header>
 
 <div class="main-container">
-  <app-product-grid tytul="Kawy" [elementy]="produkty">
+  <app-product-grid tytul="Kawy" [elementy]="kawyWyswietlane()">
   </app-product-grid>
 </div>
 
 <div class="main-container">
-  <app-product-grid tytul="Desery" [elementy]="desery">
+  <app-product-grid tytul="Desery" [elementy]="deseryWyswietlane()">
   </app-product-grid>
 </div>

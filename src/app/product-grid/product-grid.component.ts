@@ -1,4 +1,4 @@
-import { Component, Input, HostListener, OnInit } from "@angular/core";
+import { Component, Input, HostListener } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { produkt } from "./models";
 import { DomSanitizer } from "@angular/platform-browser";
@@ -11,32 +11,29 @@ import { DomSanitizer } from "@angular/platform-browser";
     styleUrl: './product-grid.component.css'
 })
 
-export class ProductGridComponent implements OnInit {
+export class ProductGridComponent {
     @Input({ required: true }) tytul!: string;
-    @Input({ required: true }) elementy: produkt[] = []; /* elementy to nazwa pudelka, produkt to kazdy el opisany w modelu produkt - nazwa,foto.. */
+    @Input({ required: true })
+    set elementy(filtrowaneElementy: produkt[]) {
+        this._elementy = filtrowaneElementy; /* wkladamy nowa liste do pudelka */
+        this.przeliczKolumny(); /*od razu prosimy o odswiezanie widoku */
+    }
+    /*Getter pozwala reszcie kodu „czytać” z tego pudełka tak jak wcześniej */
+    get elementy(): produkt[] {
+        return this._elementy;
+    }
+
+    private _elementy: produkt[] = []; /*prywatne pudelko na dane*/
 
 
     kolumny: produkt[][] = [];
 
-    ngOnInit() { /*uruchamia sie przy starcie by strona nie byla pusta */
+
+
+    @HostListener('window:resize')
+    onResize() {
         this.przeliczKolumny();
     }
-
-
-    @HostListener ('window:resize')
-    onResize() {
-        this.przeliczKolumny ();
-    }
-    // @HostListener('window:resize')
-    // onResize() {
-    //     if ((document as any).startViewTransition) { /*sprawdzenie czy przegladarka wspiera te nowa funkcje */
-    //         (document as any).startViewTransition(() => {
-    //             this.przeliczKolumny();
-    //         });
-    //     } else {
-    //         this.przeliczKolumny();
-    //     }
-    // }
 
     przeliczKolumny() { /* glowna funkcja dzielaca kawy */
         const szerokoscOkna = window.innerWidth;

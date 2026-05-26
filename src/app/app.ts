@@ -17,13 +17,9 @@ import { Header } from "./header/header";
 })
 
 export class App {
-  private sanitizer=inject(DomSanitizer)
-  getSafeUrl(videoId: string): SafeResourceUrl{
-    return this.sanitizer.bypassSecurityTrustResourceUrl ('https://www.youtube.com/embed/'+videoId);
-  }
   protected readonly title = signal('moja-pierwsza-strona');
 
-  produkty: produkt [] = [
+  kawy: produkt[] = [
     {
       nazwa: 'Espresso',
       foto: 'espresso.jpeg',
@@ -31,8 +27,6 @@ export class App {
       videoId: 'IbV_rF4MMwY',
       longDesc: 'Espresso to serce kazdej kawy. Powstaje poprzes przeciśnięcie gorącej wody pod wysokim ciśnieniem przez drobno zmielone ziarna. To esencja kofeiny która pobudza i zachwyca swoją cremą na wierzchu. Idealnie dla purystów i osób potrzebujących szybkiego zastrzyku energii.Espresso to serce kazdej kawy. Powstaje poprzes przeciśnięcie gorącej wody pod wysokim ciśnieniem przez drobno zmielone ziarna. To esencja kofeiny która pobudza i zachwyca swoją cremą na wierzchu. Idealnie dla purystów i osób potrzebujących szybkiego zastrzyku energii.',
       czyOtwarte: false,//na poczatku wszystkie sa zamkniete
-      // expanded: false,
-      // visible: false
     },
     {
       nazwa: 'Latte',
@@ -41,10 +35,6 @@ export class App {
       videoId: 'UAvsOpyyle4',
       longDesc: 'Espresso to serce kazdej kawy. Powstaje poprzes przeciśnięcie gorącej wody pod wysokim ciśnieniem przez drobno zmielone ziarna. To esencja kofeiny która pobudza i zachwyca swoją cremą na wierzchu. Idealnie dla purystów i osób potrzebujących szybkiego zastrzyku energii.',
       czyOtwarte: false,
-      // expanded: false,
-      // visible: false
-
-
     },
     {
       nazwa: 'Cappuccino',
@@ -53,8 +43,6 @@ export class App {
       videoId: 'XunyOfwVfrw',
       longDesc: 'Espresso to serce kazdej kawy. Powstaje poprzes przeciśnięcie gorącej wody pod wysokim ciśnieniem przez drobno zmielone ziarna. To esencja kofeiny która pobudza i zachwyca swoją cremą na wierzchu. Idealnie dla purystów i osób potrzebujących szybkiego zastrzyku energii.',
       czyOtwarte: false,
-      // expanded: false,
-      // visible: false
     },
     {
       nazwa: 'Flat White',
@@ -63,8 +51,6 @@ export class App {
       videoId: null,
       longDesc: 'Espresso to serce kazdej kawy. Powstaje poprzes przeciśnięcie gorącej wody pod wysokim ciśnieniem przez drobno zmielone ziarna. To esencja kofeiny która pobudza i zachwyca swoją cremą na wierzchu. Idealnie dla purystów i osób potrzebujących szybkiego zastrzyku energii.',
       czyOtwarte: false,
-      // expanded: false,
-      // visible: false
     },
     {
       nazwa: 'Irish Coffee',
@@ -73,8 +59,6 @@ export class App {
       videoId: 'UAvsOpyyle4',
       longDesc: 'Espresso to serce kazdej kawy. Powstaje poprzes przeciśnięcie gorącej wody pod wysokim ciśnieniem przez drobno zmielone ziarna. To esencja kofeiny która pobudza i zachwyca swoją cremą na wierzchu. Idealnie dla purystów i osób potrzebujących szybkiego zastrzyku energii.',
       czyOtwarte: false,
-      // expanded: false,
-      // visible: false
     },
     {
       nazwa: 'Espresso Con Panna',
@@ -83,8 +67,6 @@ export class App {
       videoId: 'UAvsOpyyle4',
       longDesc: 'Espresso to serce kazdej kawy. Powstaje poprzes przeciśnięcie gorącej wody pod wysokim ciśnieniem przez drobno zmielone ziarna. To esencja kofeiny która pobudza i zachwyca swoją cremą na wierzchu. Idealnie dla purystów i osób potrzebujących szybkiego zastrzyku energii.',
       czyOtwarte: false,
-      // expanded: false,
-      // visible: false
     },
     {
       nazwa: 'Frappe',
@@ -93,13 +75,11 @@ export class App {
       videoId: 'UAvsOpyyle4',
       longDesc: 'Espresso to serce kazdej kawy. Powstaje poprzes przeciśnięcie gorącej wody pod wysokim ciśnieniem przez drobno zmielone ziarna. To esencja kofeiny która pobudza i zachwyca swoją cremą na wierzchu. Idealnie dla purystów i osób potrzebujących szybkiego zastrzyku energii.',
       czyOtwarte: false,
-      // expanded: false,
-      // visible: false
     }
 
   ];
 
-  desery: produkt [] = [
+  desery: produkt[] = [
     {
       nazwa: 'Skyr z truskawkami',
       foto: 'skyr-z-truskawkami.jpg',
@@ -166,12 +146,36 @@ export class App {
     }
   ];
 
-  constructor (){
-    this.produkty.forEach((przedmiot, index) => {
+  // puste pudelka dla wyszukiwarki, przez signal staja sie inteligentnym pojemnikiem
+  kawyWyswietlane = signal<produkt[]>([]);
+  deseryWyswietlane = signal<produkt[]>([]);
+
+  filtruj(wpisanyTekst: string) {
+    console.log('Otrzymałem prośbę o szukanie:', wpisanyTekst);
+
+    // filtrujemy kawy i wynik zapisujemy w stalej
+    const filtrowaneKawy = this.kawy.filter(p => p.nazwa.toLocaleLowerCase().includes(wpisanyTekst.toLowerCase()));
+    // wkladamy wynik do sygnalu metoda .set()
+    this.kawyWyswietlane.set(filtrowaneKawy);
+
+    const filtrowaneDesery = this.desery.filter(p => p.nazwa.toLocaleLowerCase().includes(wpisanyTekst.toLowerCase()));
+    this.deseryWyswietlane.set(filtrowaneDesery);
+  }
+
+  private sanitizer = inject(DomSanitizer)
+  getSafeUrl(videoId: string): SafeResourceUrl {
+    return this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + videoId);
+  }
+
+  constructor() {
+    this.kawy.forEach((przedmiot, index) => {
       if (przedmiot.videoId) { //obliczamy bezpieczny link jeden raz przy starcie aplikacji i przypisujemy go do obiektu
-        przedmiot.safeUrl=this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/'+przedmiot.videoId);
+        przedmiot.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + przedmiot.videoId);
       }
     });
+    // by na start strony wszystkie produkty byly wyswietlane
+    this.kawyWyswietlane.set(this.kawy);
+    this.deseryWyswietlane.set(this.desery);
   }
 }
 

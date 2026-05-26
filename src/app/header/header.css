@@ -5,9 +5,11 @@
 }
 
 .wrapper {
+    /* baza dla logo */
+    position: relative;
     display: flex;
-    /* justify-content: space-between; */
-    /*rozsuwa na boki*/
+    /* wszystko do prawej */
+    justify-content: flex-end;
     align-items: center;
     flex-wrap: wrap;
     padding: 20px var(--padding-side);
@@ -21,11 +23,11 @@
 
 /* #region LOGO */
 .logo {
+    position: absolute;
     display: flex;
-    /* wypycha reszte w prawo */
-    margin-right: auto;
-    white-space: nowrap;
-    align-items: last baseline;
+    align-items: center;
+    left: var(--padding-side);
+    /* margin: 0 20px 0 0;   */
     gap: 10px;
 }
 
@@ -33,10 +35,13 @@ h1 {
     color: var(--color-bronze);
     font-family: var(--font-main);
     font-weight: bold;
-    text-align: center;
+    text-align: left;
     font-size: 40px;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-wrap: nowrap;
+
 }
 
 img {
@@ -46,22 +51,32 @@ img {
 /* #endregion */
 
 /* #region WYSZUKIWARKA */
+.wyszukiwarka-x {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    margin: 0;
+    padding: 0;
+}
+
 /* POLE TEKSTOWE */
 .wyszukiwarka-pole {
     position: static;
+    display: flex;
+
     background-color: var(--color-light);
     border: 1.5px solid var(--color-bronze);
     border-radius: var(--border-radius);
+    outline: none;
     color: var(--color-bronze);
     font-family: var(--font-main);
     font-size: 18px;
-    width: 90px;
-    right: 40px;
-    margin: 0;
-    padding: 5px 35px 5px 10px;
-    outline: none;
-    transition: width 0.7s ease-in-out, border-color 0.7s ease;
 
+    width: 90px;
+    margin: 0;
+    padding: 5px 65px 5px 10px;
+    transition: width 0.4s ease-out, border-color 0.4s ease-out;
 }
 
 .wyszukiwarka-pole::placeholder {
@@ -71,58 +86,82 @@ img {
     opacity: 0.5;
 }
 
-/* PRZYCISK LUPY */
-.przycisk-szukaj {
+/* PRZYCISK KASOWANIA */
+.przycisk-kasuj {
     position: absolute;
     align-items: center;
-    justify-content: center;
-    display: flex;
-    /* Ustawia górną krawędź lupy idealnie na środku wysokości paska */
-    /* top: 50%; */
-    /* Przesuwa lupę w górę o połowę jej własnej wysokości */
-    /* transform: translateY(-50%); */
-    left: -35px;
-    top: 0;
-    bottom: 0;
-    height: 100%;
-    padding: 0;
-    margin: 0;
+    right: 25px;
+
     background: none;
     border: none;
     cursor: pointer;
-    z-index: 5;
     transition: color 0.2s ease;
+
+    opacity: 0.3;
+    pointer-events: none;
 }
 
-.przycisk-szukaj:focus {
-    /* usuwa standardowa obwodke przycisku */
-    outline: none;
+/* PRZYCISK LUPY */
+.przycisk-szukaj-mobile {
+    display: none;
 }
+
+.lupa-komp {
+    position: absolute;
+    align-items: center;
+    right: 5px;
+
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    pointer-events: none;
+
+}
+
+
 
 /* AKCJE - NAJECHANIE I KLIKNIECIE */
+/* dziala tylko na komputerach */
 @media (hover: hover) and (pointer: fine) {
-    /*.przycisk-szukaj */i:hover {
+    i:hover {
         /*co sie dzieje po najechaniu */
         transform: scale(0.8);
         color: var(--color-blue);
     }
 
-    /* .wyszukiwarka-pole:focus {
+    /* #region WYSZUKIWARKA + LUPA */
+    .wyszukiwarka-x:hover .lupa-komp i {
+        color: var(--color-blue);
+    }
+
+    .wyszukiwarka-x:hover .wyszukiwarka-pole {
+        border-color: var(--color-blue);
+    }
+
+    /* #endregion */
+
+    .wyszukiwarka-pole.szukamy {
+        width: 250px;
+    }
+
+    .wyszukiwarka-pole:focus {
         width: 250px;
         border-color: var(--color-blue);
-    } */
+    }
 
-    .wrapper:focus-within .przycisk-szukaj i {
+    .przycisk-kasuj.widoczny {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .wrapper:focus-within .lupa-komp i {
         /* pod czas pisania tekstu by lupa nadal miala inny kolor */
         color: var(--color-blue);
     }
 }
 
-
 /* #endregion */
-li {
-    position: relative;
-}
 
 .nawigacja {
     display: flex;
@@ -158,7 +197,7 @@ i {
     display: inline-block;
     max-width: 150px;
     opacity: 1;
-    transition: all 0.4s ease-in-out;
+    transition: all 0.3s ease-out;
 }
 
 @media (max-width: 1350px) {
@@ -170,7 +209,7 @@ i {
     .logo {
         width: auto;
         /* logo nie moze sie scisnac */
-        flex-shrink: 0;
+        /* flex-shrink: 0; */
         /* Logo na lewo, reszta na prawo */
         margin-right: auto;
     }
@@ -183,8 +222,17 @@ i {
     .wrapper:focus-within .naw-tekst {
         max-width: 0;
         opacity: 0;
-        transition: all 0.4s ease-out;
+        transition: all 0.4s ease-in;
     }
+
+    .wyszukiwarka-pole {
+        width: 40px;
+    }
+
+    .wyszukiwarka-pole::placeholder {
+        color: transparent;
+    }
+
 }
 
 @media (max-width: 1150px) {
@@ -197,9 +245,12 @@ i {
     }
 
     .logo {
-        /* logo zajmuje cala szerokosc rzedu */
-        flex-basis: 100%;
+        /* zmiana z absolute zeby flexbox zaczal dzialac */
+        position: relative;
+        /* resetowanie przesuniecia do lewej */
+        left: auto;
         justify-content: center;
+        flex-basis: 100%;
     }
 
     .wrapper:focus-within .naw-tekst {
@@ -237,23 +288,42 @@ i {
     }
 }
 
-@media (min-width: 601px) {
+@media (max-width: 600px) {
+    .wrapper {
+        row-gap: 15px;
+    }
+
+    .wyszukiwarka-x {
+        position: relative;
+        display: flex;
+        align-items: center;
+        /* zajmuje cala szerokosc */
+        /* flex-basis: 100%; */
+        justify-content: center;
+        margin: 0;
+    }
+
     .wyszukiwarka-pole {
-        transform: none;
-        position: static;
-        bottom: auto;
-        left: auto;
-    }
-
-    .wyszukiwarka-pole:focus {
         width: 250px;
-        border-color: var(--color-blue);
-        transition: width 0.7s, border-color 0.7s ease;
     }
 
-    /* .wyszukiwarka-pole,
-    .wyszukiwarka-pole.szukamy {
-        transition-property: width, border-color;
-    } */
-}
 
+    .wyszukiwarka-pole::placeholder {
+        color: var(--color-bronze);
+        opacity: 0.5;
+    }
+
+
+
+    .lupa-komp {
+        position: absolute;
+        right: 5px;
+    }
+
+    .nawigacja {
+        flex-basis: 100%;
+        justify-content: center;
+        margin: 0;
+        gap: 20px;
+    }
+}
