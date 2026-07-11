@@ -22,6 +22,7 @@
 }
 
 /* #region LOGO */
+
 .logo {
     position: absolute;
     display: flex;
@@ -29,6 +30,9 @@
     left: var(--padding-side);
     /* margin: 0 20px 0 0;   */
     gap: 10px;
+    text-decoration: none;
+    /* inherit to dziedziczenie koloru rodzica */
+    color: inherit;
 }
 
 h1 {
@@ -41,7 +45,6 @@ h1 {
     padding: 0;
     display: flex;
     flex-wrap: nowrap;
-
 }
 
 img {
@@ -64,6 +67,7 @@ img {
 .wyszukiwarka-pole {
     position: static;
     display: flex;
+    box-sizing: content-box;
 
     background-color: var(--color-light);
     border: 1.5px solid var(--color-bronze);
@@ -124,11 +128,15 @@ img {
 /* AKCJE - NAJECHANIE I KLIKNIECIE */
 /* dziala tylko na komputerach */
 @media (hover: hover) and (pointer: fine) {
-    i:hover {
-        /*co sie dzieje po najechaniu */
-        transform: scale(0.8);
+    li:hover {
         color: var(--color-blue);
     }
+
+    /* i:hover {
+        /*co sie dzieje po najechaniu *
+        transform: scale(0.8);
+        color: var(--color-blue);
+    } */
 
     /* #region WYSZUKIWARKA + LUPA */
     .wyszukiwarka-x:hover .lupa-komp i {
@@ -155,7 +163,7 @@ img {
         pointer-events: auto;
     }
 
-    .wrapper:focus-within .lupa-komp i {
+    .szukamy-nawigacja .lupa-komp i {
         /* pod czas pisania tekstu by lupa nadal miala inny kolor */
         color: var(--color-blue);
     }
@@ -177,7 +185,6 @@ img {
     text-align: center;
     gap: 20px;
 }
-
 i {
     font-size: 28px;
     color: var(--color-bronze);
@@ -187,7 +194,26 @@ i {
     display: flex;
     align-items: center;
     gap: 10px;
+    /* usuwa podkreslenie linku */
+    text-decoration: none;
+    /* inherit to dziedziczenie koloru rodzica */
+    color: inherit;
+
 }
+
+.nawigacja a:hover {
+    color: var(--color-blue);
+}
+
+.nawigacja a:hover i {
+    color: var(--color-blue);
+    transition: color 0.3s ease-out;
+
+}
+.nawigacja a.logo-ziarno {
+    display: none;
+}
+
 
 .naw-tekst {
     vertical-align: middle;
@@ -219,7 +245,7 @@ i {
         gap: 15px;
     }
 
-    .wrapper:focus-within .naw-tekst {
+    .szukamy-nawigacja .naw-tekst {
         max-width: 0;
         opacity: 0;
         transition: all 0.4s ease-in;
@@ -253,7 +279,7 @@ i {
         flex-basis: 100%;
     }
 
-    .wrapper:focus-within .naw-tekst {
+    .szukamy-nawigacja .naw-tekst {
         max-width: 0;
         opacity: 0;
         transition: all 0.4s ease-out;
@@ -274,6 +300,9 @@ i {
 }
 
 @media (max-width: 800px) {
+    .logo {
+        white-space: nowrap;
+    }
     .wrapper {
         flex-wrap: wrap;
         justify-content: center;

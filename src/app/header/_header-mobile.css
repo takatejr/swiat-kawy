@@ -20,14 +20,16 @@
         position: fixed;
         left: var(--padding-side);
         width: var(--odstepy-mobilne);
-        bottom: 0;
+        bottom: 4px;
         margin: 0;
+        padding-left: 0;
         /* wliczenie obwodki w rozmiar tla */
         box-sizing: border-box;
-        padding: 10px 0;
+        padding-top: 5px;
         padding-bottom: calc(10px + env(safe-area-inset-bottom));
         display: flex;
-        justify-content: space-around;
+        /* takie same odstepy wszedzie - miedzy ikonami i do krawedzi */
+        justify-content: space-evenly;
         align-items: center;
         z-index: 999;
         background-color: var(--color-light);
@@ -37,20 +39,28 @@
         transition: none !important;
     }
 
+    .nawigacja.podstrona a {
+        /* padding-top: 5px;
+        padding-bottom: calc(10px + env(safe-area-inset-bottom)); */
+        margin: 0;
+        padding: 0;
+        gap: 0;
+    }
+
     .lupa-komp {
         display: none;
     }
-
     .przycisk-szukaj-mobile {
         display: flex;
         background: none;
         border: none;
+        margin: 0;
+        padding: 0;
     }
 
     .przycisk-kasuj {
-        position: absolute;
-        right: 15px;
-        left: auto;
+        margin: 0;
+        padding: 0;
         height: 40px;
         width: 40px;
         margin: 0;
@@ -83,6 +93,21 @@
         font-size: 35px;
     }
 
+    .nawigacja a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        margin: 0;
+        gap: 0;
+    }
+
+    .nawigacja a.logo-ziarno {
+        display: flex;
+    }
+
+
+
     .wyszukiwarka-x {
         position: fixed;
         display: flex;
@@ -91,7 +116,7 @@
         left: var(--padding-side);
         right: var(--padding-side);
         z-index: 1000;
-
+        pointer-events: none;
 
     }
 

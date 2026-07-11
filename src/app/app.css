@@ -1,7 +1,0 @@
-@media (max-width: 600px) {
-    .main-container:last-of-type {
-        /*tylko ostatni z takich samych*/
-        margin-bottom: calc(70px + env(safe-area-inset-bottom));
-    }
-
-}

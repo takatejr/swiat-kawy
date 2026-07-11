@@ -1,0 +1,147 @@
+<main>
+    <section class="o-nas">
+        <h2>O nas</h2>
+        <p class="teksty" [innerHTML]="tekst()"></p>
+    </section>
+
+
+    <div class="karuzela">
+        <button class="strzalka lewa" (click)="poprzednieZdjecie()"><i class="ph ph-arrow-left"></i></button>
+
+        <figure class="zdjecie-przewijane">
+            @for (zdjecie of zdjecia; track $index) {
+            <img [src]="zdjecie" alt="Zdjęcie kawiarni" (click)="otworzLightbox($index)" class="zdjecie-klikniete" [class.aktywne-zdjecie]="$index === aktualnyIndeks()">
+            }
+        </figure>
+
+        <div class="kropeczki">
+            <!-- petla for sama generuje tyle buttonow ile ma indeksow zdjec -->
+            @for (zdjecie of zdjecia; track $index) {
+            <button class="kropka" (click)="aktualnyIndeks.set($index)" [class.aktywna-kropka]="(aktualnyIndeks()===$index)"></button>
+            }
+        </div>
+
+        <button class="strzalka prawa" (click)="nastepneZdjecie()"><i class="ph ph-arrow-right"></i></button>
+    </div>
+
+    @if (lightboxIndeks() !== null) {
+    <div class="lightbox-backdrop" (click)="zamknijLightbox()">
+        <div class="lightbox-zawartosc" (click)="$event.stopPropagation()">
+            <button class="zamknij-btn" (click)="zamknijLightbox()"><i class="ph ph-x"></i></button>
+            <!-- Przekazując do funkcji $event, dajemy TypeScriptowi dostęp do danych o tym konkretnym kliknięciu myszką. Dzięki temu w pliku ts możemy użyć polecenia event.stopPropagation() czyli zatrzymaj klik na strzalce i nie przekazuj go do tla pod spodem-->
+            <button class="strzalka-modal lewa" (click)="lightboxPoprzednie($event)"><i class="ph ph-arrow-left"></i></button>
+            <img [src]="zdjecia[lightboxIndeks()!]" class="lightbox-foto-powiekszone" alt="Powiększone zdjęcie">
+            <button class="strzalka-modal prawa" (click)="lightboxNastepne($event)"><i class="ph ph-arrow-right"></i></button>
+        </div>
+    </div>
+    }
+
+    <section class="kontakt">
+        <h2>Kontakt</h2>
+
+        <div class="dane-kontaktowe">
+            <ul class="informacje">
+                <li>
+                    <strong>Jesteśmy otwarci: </strong>
+                    <p class="godziny"> codziennie 11:00 - 21:00</p>
+                </li>
+                <li>
+                    <strong>Telefon: </strong>
+                    <p class="telefon"> 456 789 321</p>
+                </li>
+                <li>
+                    <strong>Email: </strong>
+                    <p class="mail"> swiatkawy@gmail.com</p>
+                </li>
+            </ul>
+
+            <ul class="social-media">
+                <li><a href="#" class="youtube"><i class="ph ph-youtube-logo"></i> Youtube</a></li>
+                <li><a href="#" class="instagram"><i class="ph ph-instagram-logo"></i> Instagram</a></li>
+                <li><a href="#" class="pinterest"><i class="ph ph-pinterest-logo"></i> Pinterest</a></li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- allowfullscreen="" pozwala powiekszyc uzytkownikowi mape 
+      referrerpolicy kaze przegladarce nie zdradzac skad uzytkownik przeszedl klikajac na mape. kwestja bezpieczenstwa-->
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2469.0194682338674!2d19.454924811845018!3d51.76925127175672!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471bcad5c2038963%3A0x51bc35914135366e!2zUGlvdHJrb3dza2EgNjgsIDkwLTEwNSDFgcOzZMW6!5e0!3m2!1spl!2spl!4v1781780089806!5m2!1spl!2spl" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+
+    <section class="sekcja-kontaktowa">
+        <h2>Napisz do nas</h2>
+
+        <form (submit)="wyslijWiadomosc($event, email, tresc, newsletter)" ngNativeValidate>
+            @if (wiadomoscWyslana()) {
+            <div class="komunikat-dziekujemy">
+                <button type="button" class="zamknij-komunikat" (click)="wiadomoscWyslana.set(false)"><i class="ph ph-x"></i></button>
+                <h3>Dziękujemy za wiadomość!</h3>
+                <p>Nasz zespół odpowie na nią najszybciej jak to możliwe.</p>
+            </div>
+            }
+            <div class="caly-formularz" [class.ukryty]="wiadomoscWyslana()">
+                <div class="grupa-formularza">
+                    <label for="email-id"><strong>Twój e-mail: *</strong></label>
+                    <input #email type="email" id="email-id" required placeholder="np. adres@poczta.pl" class="formularz">
+                </div>
+                <div class="grupa-formularza">
+                    <label for="tresc-id"><strong>Treść wiadomości: *</strong></label>
+                    <textarea #tresc id="tresc-id" required minlength="20" maxlength="500" placeholder="W czym możemy pomoc?" class="formularz"></textarea>
+                </div>
+
+                <div class="grupa-checkbox">
+                    <input #newsletter type="checkbox" id="zgoda-newsletter" style="display: none;" (change)="newsletterZaznaczony.set(!newsletterZaznaczony())">
+
+                    <label for="zgoda-newsletter" class="wlasny-checkbox">
+                        @if (newsletterZaznaczony()) {
+                        <i class="ph ph-check-square zaznaczone"></i>
+                        } @else {
+                        <i class="ph ph-square"></i>
+                        }
+
+                        <strong>Chcę dołączyć do newslettera i otrzymać 15% zniżki na pierwsze zamówienie.</strong></label>
+                </div>
+
+                <button type="submit" class="btn-bronz">Wyślij wiadomość</button>
+            </div>
+
+        </form>
+    </section>
+
+    <section class="newsletter">
+        <h2>Newsletter</h2>
+
+        <form class="caly-newsletter" (submit)="wyslijChec($event, newsletterDrugi)" ngNativeValidate>
+            @if (chceNewsletter()) {
+            <div class="komunikat-dziekujemy newsletter">
+                <button type="button" class="zamknij-komunikat" (click)="chceNewsletter.set(false)"><i class="ph ph-x"></i></button>
+                <h3>Super!</h3>
+                <p>Napiszemy do Ciebie wkrótce.</p>
+            </div>
+            }
+            <div class="newsletter-zawartosc"[class.ukryty]="chceNewsletter()">
+                <p class="teksty">Będziemy powiadamiać o naszych nowościach, dniach specjalnych oraz rabatach.<br><strong>Przy zapisaniu się na newsletter otrzymasz 15% zniżki na pierwsze zamówienie!</strong>
+                </p>
+                <div class="newsletter-formularz">
+                    <input #newsletterDrugi type="e-mail" id="email-id" required placeholder="np. adres@poczta.pl" class="formularz">
+                    <button type="submit" class="btn-bronz">Zapisz mnie</button>
+                </div>
+            </div>
+        </form>
+    </section>
+
+</main>
+
+<!-- 
+        <figure class="zdjecie-przewijane">
+            !-- 'translateX(-' czysty tekst: przygotuj sie na przesuwanie w lewo o.. -->
+<!-- (aktualnyIndeks()*100) obliczamy: np jestesmy na 3 zdjeciu. ma indeks 2. 2*100=200 - nasz wynik -->
+<!-- '%)' wracamy do tekstu w nawiasach: doklejamy % i zamykamy nawias--
+            <div class="tasma-zdjec" [style.transform]=" 'translateX(-' + (aktualnyIndeks()*100) + '%)' ">
+                @for (zdjecie of zdjecia; track $index) {
+                <img [src]="zdjecie"
+                alt="Zdjęcie kawiarni"
+                (click)="otworzLightbox($index)"
+                class="zdjecie-klikniete">}
+            </div>
+        </figure> -->

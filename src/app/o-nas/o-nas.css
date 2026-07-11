@@ -1,0 +1,596 @@
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 var(--padding-side);
+    max-width: 1600px;
+    /* automatycznie dzieli wolna przestrzen na rowne marginesy po bokach */
+    margin: 0 auto;
+}
+
+section {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 60px;
+    margin-bottom: 40px;
+    width: 100%;
+}
+
+h2 {
+    display: flex;
+    flex-basis: 30%;
+    justify-content: flex-start;
+    margin: 0;
+    padding-right: 20px;
+    color: var(--color-bronze);
+    font-family: var(--font-main);
+}
+
+.teksty {
+    justify-content: flex-start;
+    flex-basis: 70%;
+    max-width: 800px;
+    margin-right: auto;
+    color: var(--color-bronze);
+    font-family: var(--font-main);
+    font-weight: 100;
+    font-size: 16px;
+    line-height: 1.5;
+    /* uszanowanie przenoszenia na nowa linijke w ts \n */
+    white-space: pre-line;
+}
+
+/* AKCJE - NAJECHANIE I KLIKNIECIE */
+/* dziala tylko na komputerach */
+@media (hover: hover) and (pointer: fine) {
+    button:hover {
+        color: var(--color-blue);
+    }
+}
+
+/* #region KARUZELA */
+.karuzela {
+    display: flex;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: var(--border-radius);
+    /* ostre ciecie rogow */
+    transform: translateZ(0);
+}
+
+.zdjecie-przewijane {
+    position: relative;
+    margin: 0;
+    flex-grow: 1;
+    height: 300px;
+}
+
+.zdjecie-klikniete {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.8s ease-in-out;
+    /* zabrania sciskania zdjec */
+    /* flex-shrink: 0; */
+}
+
+.zdjecie-klikniete.aktywne-zdjecie {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 1;
+}
+
+.ph {
+    /* duch dla myszki by na pewno klikniecie bylo w przycisk */
+    pointer-events: none;
+}
+
+.strzalka {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    color: var(--color-bronze);
+    width: 200px;
+    height: 300px;
+    border: none;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.strzalka i {
+    font-size: 30px;
+}
+
+.strzalka.lewa {
+    left: 0;
+    justify-content: left;
+    /* background: linear-gradient(to left, rgba(253, 231, 195, 0)0%, rgba(253, 231, 195, 0.6)80%, var(--color-light)110%); */
+    background: none;
+}
+
+.strzalka.prawa {
+    right: 0;
+    justify-content: right;
+    /* background: linear-gradient(to right, rgba(253, 231, 195, 0)0%, rgba(253, 231, 195, 0.6)80%, var(--color-light)110%); */
+    background: none;
+}
+
+.kropeczki {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    gap: 15px;
+    z-index: 3;
+}
+
+.kropka {
+    margin: 0;
+    padding: 0;
+    color: none;
+    border: 2px solid var(--color-bronze);
+    background-color: transparent;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.kropka.aktywna-kropka {
+    border: 2px solid var(--color-light);
+}
+
+.kropka:hover {
+    border: 2px solid var(--color-blue);
+}
+
+/* #endregion */
+
+/* #region LIGHTBOX */
+.lightbox-backdrop {
+    /* fixed przykleja okno do szybki monitora, nie zwaza na przewijanie */
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    /* zajecie calego ekranu viewport width i viewport height */
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(84, 50, 33, 0.8);
+    backdrop-filter: blur(2px);
+    z-index: 100;
+}
+
+.lightbox-zawartosc {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.lightbox-foto-powiekszone {
+    display: block;
+    /* zajmie max 80%wysokosci i 70%szerokosci */
+    margin: 0;
+    padding: 0;
+    max-width: 70vw;
+    max-height: 80vh;
+    width: auto;
+    height: auto;
+    border-radius: var(--border-radius);
+}
+
+.zamknij-btn {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    /* usuwa niewidzialne powietrze wokol ikony x */
+    line-height: 1;
+    padding: 0;
+    margin: 0;
+    top: 0;
+    right: -60px;
+    width: 60px;
+    height: 60px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-light);
+    font-size: 32px;
+    z-index: 102;
+}
+
+.strzalka-modal {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    top: 0;
+    width: 60px;
+    height: 100%;
+    max-height: 80vh;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-light);
+    font-size: 32px;
+    z-index: 101;
+}
+
+.strzalka-modal.lewa {
+    left: -60px;
+}
+
+.strzalka-modal.prawa {
+    right: -60px;
+}
+
+/* #endregion */
+
+/* #region KONTAKT */
+
+.dane-kontaktowe {
+    display: flex;
+    justify-content: flex-start;
+    flex-basis: 70%;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 80px;
+}
+
+.dane-kontaktowe ul {
+    margin: 0;
+    padding: 0;
+
+}
+
+.informacje,
+.social-media {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
+
+li {
+    display: flex;
+    color: var(--color-bronze);
+    font-family: var(--font-main);
+    font-weight: 100;
+    font-size: 16px;
+    /* line-height: 1.5; */
+    white-space: nowrap;
+    gap: 10px;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.ph {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* #endregion */
+
+/* #region MAPA */
+iframe {
+    width: 100%;
+    height: 300px;
+    border-radius: var(--border-radius);
+    border: none;
+    /* mikstura na braz: sepia jako baza, przesuniecie barwy i ew wygaszenie saturate(50%)*/
+    filter: sepia(80%) hue-rotate(-30deg);
+    transition: filter 0.5s ease;
+}
+
+iframe:hover {
+    filter: grayscale(0%);
+}
+
+/* #endregion*/
+
+/* #region NAPISZ DO NAS */
+form {
+    display: block;
+    justify-content: flex-start;
+    flex-basis: 70%;
+    margin-right: auto;
+}
+
+.caly-formularz {
+    transition: opacity 0.5s ease;
+}
+
+.caly-formularz.ukryty {
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.grupa-formularza {
+    display: flex;
+    flex-direction: column;
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+label {
+    padding: 0 0 10px 10px;
+}
+
+input {
+    max-width: 400px;
+}
+
+textarea {
+    /* blokuje kacik zmieniania rozmiaru okienka */
+    resize: none;
+    /* przy border-box padding wlicza sie do wielkosci pudelka */
+    box-sizing: border-box;
+    max-width: 600px;
+    width: 100%;
+    min-height: 150px;
+    line-height: 1.5;
+}
+textarea::placeholder {
+    font-family: var(--font-main);
+    
+}
+.grupa-checkbox {
+    display: flex;
+    /* padding-top: 25px; */
+    gap: 10px;
+    align-items: center;
+}
+
+.grupa-checkbox label {
+    padding: 0;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.grupa-checkbox input {
+    font-size: 14px;
+}
+
+.grupa-checkbox input[type="checkbox"] {
+    /* zmienia niebeskie tlo na bronz */
+    accent-color: var(--color-bronze);
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+}
+
+.wlasny-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0;
+    cursor: pointer;
+}
+
+.wlasny-checkbox i {
+    font-size: 24px;
+    font-weight: 100;
+    color: var(--color-bronze);
+    transition: all 0.5s ease;
+}
+
+.wlasny-checkbox i.zaznaczone {
+    color: var(--color-blue);
+}
+
+
+.btn-bronz {
+    margin-top: 25px;
+
+}
+
+/* #endregion */
+
+/* #region NAPISZ DO NAS - PODZIEKOWANIA */
+.sekcja-kontaktowa form {
+    position: relative;
+}
+
+.komunikat-dziekujemy {
+    position: absolute;
+    /* display: flex; */
+    /* flex-direction: column; */
+    text-align: center;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 100%;
+    background-color: var(--color-light);
+    padding: 40px 10px 60px 10px;
+    border-radius: var(--border-radius);
+    z-index: 10;
+}
+
+.zamknij-komunikat {
+    position: absolute;
+    padding: 5px 6px 3px 6px;
+    margin: 0;
+    top: 10px;
+    right: 10px;
+
+    color: var(--color-bronze);
+    border: 1.5px solid var(--color-bronze);
+    background-color: transparent;
+}
+
+/* #endregion */
+
+
+/* #region NEWSLETTER */
+.caly-newsletter {
+    position: relative;
+}
+
+.newsletter-zawartosc.ukryty {
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.newsletter-zawartosc {
+    display: block;
+    justify-content: flex-start;
+    flex-basis: 70%;
+    margin-right: auto;
+
+}
+
+.teksty {
+    padding: 0 0 10px 10px;
+
+}
+
+.newsletter-formularz {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.newsletter-formularz input {
+    width: 100%;
+}
+
+.komunikat-dziekujemy.newsletter {
+    background-color: var(--color-light-white);
+}
+/* #endregion */
+
+
+@media (max-width: 800px) {
+    section {
+        display: flex;
+        flex-direction: column;
+        flex-basis: 100%;
+        align-items: center;
+        margin: 30px 0;
+    }
+
+    form {
+        width: 100%;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+    }
+
+    p.teksty {
+        padding: 0;
+        text-align: justify;
+        /*wyrownanie tekstu po obu stronach*/
+        hyphens: auto;
+        /*dzielenie na sylaby. w index.html musi byc PL <html lang="pl">*/
+
+    }
+
+    .grupa-formularza {
+        padding-top: 0;
+    }
+
+    .grupa-formularza textarea {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .newsletter-formularz .formularz {
+        margin-top: 10px;
+    }
+
+}
+
+@media (max-width: 600px) {
+    h2 {
+        padding: 0;
+    }
+
+    .strzalka {
+    width: 50px;
+}
+
+    iframe {
+        filter: none
+    }
+
+
+    .dane-kontaktowe {
+        flex-direction: column;
+        flex-basis: 100%;
+        gap: 30px;
+    }
+
+    .social-media {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 20px;
+    }
+
+    .sekcja-kontaktowa form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    button.zamknij-komunikat {
+        right: auto;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    form .caly-formularz {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .grupa-formularza,
+    .grupa-checkbox {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+
+    form button[type="submit"],
+    .caly-formularz button[type="submit"] {
+        align-self: center;
+
+    }
+
+    .newsletter-zawartosc .teksty {
+        padding-left: 10px;
+    }
+
+    section:last-of-type {
+        /*tylko ostatni z takich samych*/
+        padding-bottom: 70px;
+    }
+
+}

@@ -1,9 +1,11 @@
-import { Component, ElementRef, HostListener, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild, inject, ɵcreateOrReusePlatformInjector } from '@angular/core';
+import { Wyszukiwarka } from '../wyszukiwarka';
+import { RouterLink, Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './header.html',
   styleUrls: ['./header.css', './_header-mobile.css']
 })
@@ -11,20 +13,21 @@ import { Component, ElementRef, HostListener, Output, EventEmitter, ViewChild } 
 
 export class Header {
 
-  @Output('szukajkaAkcja') szukajkaAkcja = new EventEmitter<string>();
+  wyszukiwarka = inject(Wyszukiwarka);
+  router = inject(Router);
 
+
+  // wlasciwosci klasy: nazwa, typ, wartosc
   szukajAktywne: boolean = false;
   pozycjaScrolla: number = 0;
   blokadaScrolla: boolean = false;
 
 
-  constructor(private elementRef: ElementRef) { }
-  // nasluchuje klikniec na calym dokumencie
 
   toggleWyszukiwarka(szukajka: HTMLInputElement) {
     this.szukajAktywne = !this.szukajAktywne;
-    //Wartość, którą użytkownik wpisał do pola, znajduje się we właściwości szukajka.value. emit wysyła
-    this.szukajkaAkcja.emit(szukajka.value);
+    //Wartość, którą użytkownik wpisał do pola, znajduje się we właściwości szukajka.value. 
+    this.wyszukiwarka.szukanaFraza.set(szukajka.value);
 
     if (this.szukajAktywne) {
       // prevent scroll powstrzymuje telefon przed przewijaniem do gory
@@ -40,11 +43,15 @@ export class Header {
   }
 
   // funkcja obslugujaca wpisywanie tekstu
-  onInput(szukajka: HTMLInputElement) {
+  zawartoscInputa(szukajka: HTMLInputElement) {
     // wlaczamy blokade i przez najblizsze 300ms ignorujemy skoki scrolla
     this.blokadaScrolla = true;
-    //Wartość, którą użytkownik wpisał do pola, znajduje się we właściwości szukajka.value. emit wysyła
-    this.szukajkaAkcja.emit(szukajka.value);
+    //Wartość, którą użytkownik wpisał do pola, znajduje się we właściwości szukajka.value. #szukajka to fizyczne pole html
+    this.wyszukiwarka.szukanaFraza.set(szukajka.value);
+    //jesli my nie na glownej to zmieniamy podstrone na glowna
+    if (this.router.url !== '/') {
+      this.router.navigateByUrl('/');
+    }
     // gdy strona skonczy rozszerzac/kurczyc to zapisujemy stabilny punkt
     setTimeout(() => {
       this.pozycjaScrolla = window.scrollY;
@@ -54,10 +61,17 @@ export class Header {
 
 
   @HostListener('document:click', ['$event'])
-  klikPoza(event: Event) {
-    if (!this.elementRef.nativeElement.contains(event.target)) {
+  klikPoza(event: MouseEvent) {
+    const element = event.target as HTMLElement;
+    // sprawdzamy czy klikniecie nastapilo wewnatrz ramki szukania czy w lupe
+    const wSzukajce = element.closest('.wyszukiwarka-x') || element.closest('.przycisk-szukaj-mobile');
+
+    // jesli wSzukajce znalazla element (czyli ma watrosc) to ! zmienia ja w false
+    // jesli w wSzukajce jest pusta (null) to ! zmienia ja w true
+    if (!wSzukajce) {
       this.szukajAktywne = false;
     }
+
   }
 
   @HostListener('window:scroll', [])
@@ -89,12 +103,22 @@ export class Header {
     if (this.szukajkaElement) {
       // czyscimy tekst fizycznie w wyszukiwarce
       // this.szukajkaElement.nativeElement.value = '';
-      // informujemy aplikacje o resecie
-      // this.szukajkaAkcja.emit('');
       // chowamy klawiature w telefonie i na tablecie
       this.szukajkaElement.nativeElement.blur();
     }
   }
 
-
+  
 }
+// NA PAMIEC O WYSZUKIWARCE
+// [header.html] Użytkownik wpisuje literę w pole #szukajka
+//        ↓
+// [header.ts] Pobiera szukajka.value i robi .set() do serwisu
+//        ↓
+// [wyszukiwarka.ts] Sygnał "szukanaFraza" zmienia swoją wartość
+//        ↓
+// [home.ts] Aktywuje się "effect" (alarm) -> uruchamia funkcję filtruj()
+//        ↓
+// [home.ts] Funkcja filtruj() robi .set() dla "kawyWyswietlane"
+//        ↓
+// [home.html] Widok automatycznie pokazuje nowe, przefiltrowane produkty!

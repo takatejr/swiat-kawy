@@ -7,11 +7,11 @@ import { DomSanitizer } from "@angular/platform-browser";
     selector: 'app-product-grid',
     standalone: true,
     imports: [CommonModule],
-    templateUrl: './product-grid.component.html',
-    styleUrl: './product-grid.component.css'
+    templateUrl: './product-grid.html',
+    styleUrl: './product-grid.css'
 })
 
-export class ProductGridComponent {
+export class ProductGrid {
     @Input({ required: true }) tytul!: string;
     @Input({ required: true })
     set elementy(filtrowaneElementy: produkt[]) {

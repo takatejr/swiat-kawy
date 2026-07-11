@@ -1,43 +1,52 @@
 <header class="header-tlo">
     <div class="wrapper">
-        <a class="logo">
+
+        <!-- routerlink "" przenosi na home, glowny widok -->
+        <a class="logo" routerLink="/">
             <img class="logo-img" src="swiat-kawy.png">
             <h1>ŚWIAT KAWY</h1>
         </a>
 
 
-        <div class="wyszukiwarka-x">
-            <input #szukajka inputmode="search" type="text" placeholder="Szukaj" class="wyszukiwarka-pole"
-                [class.szukamy]="szukajAktywne" (keyup.enter)="toggleWyszukiwarka(szukajka)"
-                (input)="onInput(szukajka)">
-            <!-- (input)="szukajkaAkcja.emit(szukajka.value) dzieki (input) przy każdej literce Header „krzyknie” do App: „Zmieniło się! Szukaj od nowa!”, a funkcja filtruj natychmiast odświeży widok. -->
 
+        <div class="wyszukiwarka-x">
+            <input #szukajka inputmode="search" type="text" placeholder="Szukaj" class="wyszukiwarka-pole" [class.szukamy]="szukajAktywne" (keyup.enter)="toggleWyszukiwarka(szukajka)" (input)="zawartoscInputa(szukajka)" (focus)="szukajAktywne = true">
             <span class="lupa-komp">
                 <i class="ph ph-magnifying-glass"></i></span>
-
-            <!-- szukajAktywne = true powinno przymusić szukajke pojawic sie po wyczyszczeniu na telefonie -->
-            <button class="przycisk-kasuj" [class.widoczny]="szukajka.value.length > 0"
-                (mousedown)="$event.preventDefault()" (click)="
-                  szukajAktywne = true;
-                  szukajka.value = '';
-                  szukajkaAkcja.emit('');
-                  szukajka.focus()">
+            <!-- szukajAktywne = true powinno przymusić szukajke pojawic sie po wyczyszczeniu na telefonie
+                 $event.preventDefault() blokuje domyślną reakcję przeglądarki czyli utrate fokusu i zwiniecie klawiatury-->
+            <button class="przycisk-kasuj" [class.widoczny]="szukajka.value.length > 0" (mousedown)="$event.preventDefault()" (click)="
+                      szukajAktywne = false;
+                      szukajka.value = '';
+                      wyszukiwarka.szukanaFraza.set('');
+                      szukajka.blur()
+                    ">
                 <i class="ph ph-x"></i></button>
         </div>
 
 
 
-        <ul class="nawigacja" [class.szukamy-nawigacja]="szukajAktywne">
+
+        <ul class="nawigacja" [class.szukamy-nawigacja]="szukajAktywne" [class.podstrona]="router.url !== '/'">
             <li>
+                @if (router.url === '/') {
                 <button class="przycisk-szukaj-mobile" (click)="toggleWyszukiwarka(szukajka)">
                     <i class="ph ph-magnifying-glass"></i></button>
+                } @else {<a routerLink="/" class="przycisk-szukaj-mobile logo-ziarno"><i class="ph ph-coffee-bean"></i></a>}
 
             </li>
 
             <li>
-                <a class="dostawa">
-                    <i class="ph ph-truck"></i>
-                    <span class="naw-tekst">Dostawa</span>
+                <a class="ulubione">
+                    <i class="ph ph-heart"></i>
+                    <span class="naw-tekst">Ulubione</span>
+                </a>
+            </li>
+
+            <li>
+                <a class="kontakt" routerLink="/o-nas">
+                    <i class="ph ph-coffee"></i>
+                    <span class="naw-tekst">O nas / Kontakt</span>
                 </a>
             </li>
 
@@ -48,12 +57,6 @@
                 </a>
             </li>
 
-            <li>
-                <a class="kontakt">
-                    <i class="ph ph-coffee"></i>
-                    <span class="naw-tekst">O nas / Kontakt</span>
-                </a>
-            </li>
 
             <li>
                 <a class="zaloguj">
